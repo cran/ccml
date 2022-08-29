@@ -3,7 +3,7 @@ ccml<-function(title, label ,output="rdata",nperm = 10, ncore = 1, seedn = 100, 
 #'
 #' @param title A character value for output directory. Directory is created only if not existed. This title can be an abosulte or relative path. Input for \code{callNCW, plotCompareCW, ConsensusClusterPlus::ConsensusClusterPlus, ConsensusClusterPlus::calcICL}
 #' @param label A matrix or data frame of input labels or a character value of input file name, columns=different clustering results and rows are samples. \code{label} could be import as '.rdata', '.rda', or '.csv'. Input for \code{callNCW, plotCompareCW}
-#' @param output A character value for output format, or "rdata"(default) as save to .rdata, others will return to workspace.
+#' @param output A character value for output format, or "rdata"(default) as save to .rdata when both output and plot are not NULL, others will return to workspace.
 #' @param nperm A integer value of the permutation numbers, or nperm=10(default), which means \code{nperm}*1000 times of permutation. Input for \code{callNCW}
 #' @param ncore A integer value of cores to use, or ncore=1 (default). It's the input core numbers for the parallel computation in this package \code{parallel}. Input for \code{callNCW}
 #' @param seedn A numerical value to set the start random seed for reproducible results, or seedn=100 (default). For every 1000 iteration, the seed will +1 to get repeat results. Input for \code{callNCW, ConsensusClusterPlus::ConsensusClusterPlus}
@@ -11,7 +11,7 @@ ccml<-function(title, label ,output="rdata",nperm = 10, ncore = 1, seedn = 100, 
 #' @param maxK integer value. maximum cluster number to evaluate. Input for \code{ConsensusClusterPlus::ConsensusClusterPlus} for the consensus clustering based on normalized consensus weights.
 #' @param reps integer value. number of subsamples. Input for \code{ConsensusClusterPlus::ConsensusClusterPlus}
 #' @param pItem numerical value. proportion of items to sample. Input for \code{ConsensusClusterPlus::ConsensusClusterPlus}
-#' @param plot character value. NULL(default) - print to screen, 'pdf', 'png', 'pngBMP' for bitmap png, helpful for large datasets, or 'pdf'. Input for \code{ConsensusClusterPlus::ConsensusClusterPlus, ConsensusClusterPlus::calcICL,callNCW,plotCompareCW}
+#' @param plot character value. NULL(default) - print to screen, 'pdf', 'png', 'pngBMP' for bitmap png, helpful for large datasets. Input for \code{ConsensusClusterPlus::ConsensusClusterPlus, ConsensusClusterPlus::calcICL,callNCW,plotCompareCW}
 #' @param clusterAlg character value. cluster algorithm. 'spectralClusteringAffinity' for spectral clustering of similarity/affinity matrix(default), other methods for clustering of distance matrix, 'hc' heirarchical (hclust), 'pam' for paritioning around medoids,
 #'        'km' for k-means upon data matrix, 'kmdist' for k-means upon distance matrices (former km option), or a function that returns a clustering. Input for \code{ConsensusClusterPlus::ConsensusClusterPlus}.
 #' @param innerLinkage heirarchical linkage method for subsampling, or "complete"(default). Input for \code{ConsensusClusterPlus::ConsensusClusterPlus}
@@ -30,19 +30,19 @@ ccml<-function(title, label ,output="rdata",nperm = 10, ncore = 1, seedn = 100, 
 #' data(example_data)
 #' label=example_data
 #'
-#' # run ccml
-#' title="output"
+#' # if plot is not NULL, results will be saved in "result_output" directory
+#' title="result_output"
 #'
 #' \donttest{
 #' # not estimate stability of permutation numbers.
-#' res_1=ccml(title=title,label=label,nperm = 3,ncore=1,stability=FALSE,maxK=3,pItem=0.8)
+#' res_1=ccml(title=title,label=label,nperm = 3,ncore=1,stability=FALSE,maxK=5,pItem=0.8)
 #'
 #' # other methods for clustering of distance matrix
-#' res_2<-ccml(title=title,label=label,nperm = 10,ncore=1,stability=FALSE,maxK=3,
+#' res_2<-ccml(title=title,label=label,nperm = 10,ncore=1,stability=TRUE,maxK=3,
 #'             pItem=0.9,clusterAlg = "hc")
 #'
-#' # not output as "rdata"
-#' res_3<-ccml(title=title,label=label,output=FALSE,nperm = 5,ncore=1,stability=TRUE,maxK=3,
+#' # set the start random seed
+#' res_3<-ccml(title=title,label=label,output=FALSE,nperm = 5,ncore=1,seedn=150,stability=TRUE,maxK=3,
 #'            pItem=0.9)
 #' }
 #'
@@ -65,7 +65,7 @@ ccml<-function(title, label ,output="rdata",nperm = 10, ncore = 1, seedn = 100, 
   if (substr(title,1,2)=="./") {
     ### relative path to absolute path
     title = paste0(getwd(),"/",substr(title,3,nchar(title)))
-  } else if (substr(title,1,1)=="D" | substr(title,1,1)=="E" | substr(title,1,1)=="F"| substr(title,1,1)=="C"){
+  } else if (substr(title,1,1)=="D" | substr(title,1,1)=="E" | substr(title,1,1)=="F"| substr(title,1,1)=="C" |substr(title,1,1)=="G"){
     ### character input to absolute path
     title = title
   }else if (!substr(title,1,1)=="/"){

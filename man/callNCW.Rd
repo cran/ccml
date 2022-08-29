@@ -41,8 +41,8 @@ Calculate normalized consensus weight(NCW) matrix based on permutation.
 data(example_data)
 label=example_data
 
-# "example_output" is a character value for output directory
-title="output"
+# if plot is not NULL, results will be saved in "result_output" directory
+title="result_output"
 
 \donttest{
 # run ncw

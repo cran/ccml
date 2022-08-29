@@ -26,7 +26,7 @@ ccml(
 
 \item{label}{A matrix or data frame of input labels or a character value of input file name, columns=different clustering results and rows are samples. \code{label} could be import as '.rdata', '.rda', or '.csv'. Input for \code{callNCW, plotCompareCW}}
 
-\item{output}{A character value for output format, or "rdata"(default) as save to .rdata, others will return to workspace.}
+\item{output}{A character value for output format, or "rdata"(default) as save to .rdata when both output and plot are not NULL, others will return to workspace.}
 
 \item{nperm}{A integer value of the permutation numbers, or nperm=10(default), which means \code{nperm}*1000 times of permutation. Input for \code{callNCW}}
 
@@ -42,7 +42,7 @@ ccml(
 
 \item{pItem}{numerical value. proportion of items to sample. Input for \code{ConsensusClusterPlus::ConsensusClusterPlus}}
 
-\item{plot}{character value. NULL(default) - print to screen, 'pdf', 'png', 'pngBMP' for bitmap png, helpful for large datasets, or 'pdf'. Input for \code{ConsensusClusterPlus::ConsensusClusterPlus, ConsensusClusterPlus::calcICL,callNCW,plotCompareCW}}
+\item{plot}{character value. NULL(default) - print to screen, 'pdf', 'png', 'pngBMP' for bitmap png, helpful for large datasets. Input for \code{ConsensusClusterPlus::ConsensusClusterPlus, ConsensusClusterPlus::calcICL,callNCW,plotCompareCW}}
 
 \item{clusterAlg}{character value. cluster algorithm. 'spectralClusteringAffinity' for spectral clustering of similarity/affinity matrix(default), other methods for clustering of distance matrix, 'hc' heirarchical (hclust), 'pam' for paritioning around medoids,
 'km' for k-means upon data matrix, 'kmdist' for k-means upon distance matrices (former km option), or a function that returns a clustering. Input for \code{ConsensusClusterPlus::ConsensusClusterPlus}.}
@@ -68,19 +68,19 @@ A two-step consensus clustering inputing multiple predictive labels with differe
 data(example_data)
 label=example_data
 
-# run ccml
-title="output"
+# if plot is not NULL, results will be saved in "result_output" directory
+title="result_output"
 
 \donttest{
 # not estimate stability of permutation numbers.
-res_1=ccml(title=title,label=label,nperm = 3,ncore=1,stability=FALSE,maxK=3,pItem=0.8)
+res_1=ccml(title=title,label=label,nperm = 3,ncore=1,stability=FALSE,maxK=5,pItem=0.8)
 
 # other methods for clustering of distance matrix
-res_2<-ccml(title=title,label=label,nperm = 10,ncore=1,stability=FALSE,maxK=3,
+res_2<-ccml(title=title,label=label,nperm = 10,ncore=1,stability=TRUE,maxK=3,
             pItem=0.9,clusterAlg = "hc")
 
-# not output as "rdata"
-res_3<-ccml(title=title,label=label,output=FALSE,nperm = 5,ncore=1,stability=TRUE,maxK=3,
+# set the start random seed
+res_3<-ccml(title=title,label=label,output=FALSE,nperm = 5,ncore=1,seedn=150,stability=TRUE,maxK=3,
            pItem=0.9)
 }
 

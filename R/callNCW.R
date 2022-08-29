@@ -17,8 +17,8 @@ callNCW <- function(title,label,nperm = 10, ncore=1,seedn=100,stability=TRUE,plo
   #' data(example_data)
   #' label=example_data
   #'
-  #' # "example_output" is a character value for output directory
-  #' title="output"
+  #' # if plot is not NULL, results will be saved in "result_output" directory
+  #' title="result_output"
   #'
   #' \donttest{
   #' # run ncw
@@ -58,12 +58,15 @@ callNCW <- function(title,label,nperm = 10, ncore=1,seedn=100,stability=TRUE,plo
     title = paste0(title,"/")
   }
 
+
+
+
   if (substr(title,1,2)=="./") {
     ### relative path to absolute path
     message(paste0("The first choice:",title))
     title = paste0(getwd(),"/",substr(title,3,nchar(title)))
     # message(paste0("The first choice:",title))
-  } else if (substr(title,1,1)=="D" | substr(title,1,1)=="E" | substr(title,1,1)=="F"| substr(title,1,1)=="C"){
+  } else if (substr(title,1,1)=="D" | substr(title,1,1)=="E" | substr(title,1,1)=="F"| substr(title,1,1)=="C" |substr(title,1,1)=="G"){
     ### character input to absolute path
     title = title
   }else if (!substr(title,1,1)=="/"){
@@ -117,7 +120,13 @@ callNCW <- function(title,label,nperm = 10, ncore=1,seedn=100,stability=TRUE,plo
   pair.ind = pair.ind[pair.ind[,1]-pair.ind[,2]<0,]
 
   ### check existed randome consensus weight matrix in the results folder
-  filename = dir(ppath)
+  if(is.null(plot)==TRUE){
+    filename=c()
+  }else{
+    filename = dir(ppath)
+  }
+
+  # filename = dir(ppath)
   filename = filename[grepl("rcw$",filename)]    ##find "rcw$" in ppath
   if (length(filename)>0) {
     filename = gsub("s","",filename)
@@ -224,7 +233,7 @@ callNCW <- function(title,label,nperm = 10, ncore=1,seedn=100,stability=TRUE,plo
         theme_bw(base_size = 14) +
         theme(axis.text.y.left = element_text(color = "blue"),plot.title = element_text(hjust = 0.5))
 
-      ggsave(paste0(title,"stability.seed",seedn,".n",nperm,"K.pdf"),width=max(8,nperm*0.5),height=5)
+      ggsave(paste0(title,"stability.seed",seedn,".n",nperm,"K.",plot),width=max(8,nperm*0.5),height=5)
     }
 
     message(paste("Finished estimation of stability of permutation numbers for normalized consensus weight:\n"))

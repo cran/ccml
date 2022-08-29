@@ -27,8 +27,8 @@ Plot of original consensus weights vs. normalized consensus weights grouping by 
 data(example_data)
 label=example_data
 
-# "output" is a character value for output directory
-title="output"
+# if plot is not NULL, results will be saved in "result_output" directory
+title="result_output"
 
 \donttest{
 ncw<-callNCW(title=title,label=label,stability=TRUE)

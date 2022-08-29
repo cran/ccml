@@ -14,8 +14,8 @@ plotCompareCW<- function(title,label,ncw,plot=NULL){
   #' data(example_data)
   #' label=example_data
   #'
-  #' # "output" is a character value for output directory
-  #' title="output"
+  #' # if plot is not NULL, results will be saved in "result_output" directory
+  #' title="result_output"
   #'
   #' \donttest{
   #' ncw<-callNCW(title=title,label=label,stability=TRUE)
@@ -41,7 +41,7 @@ plotCompareCW<- function(title,label,ncw,plot=NULL){
   if (substr(title,1,2)=="./") {
     ### relative path to absolute path
     title = paste0(getwd(),"/",substr(title,3,nchar(title)))
-  }else if (substr(title,1,1)=="D"){
+  }else if (substr(title,1,1)=="D" | substr(title,1,1)=="E" | substr(title,1,1)=="F"| substr(title,1,1)=="C" |substr(title,1,1)=="G"){
     ### character input to absolute path
     title = title
   }else if (!substr(title,1,1)=="/"){
@@ -77,7 +77,7 @@ plotCompareCW<- function(title,label,ncw,plot=NULL){
       xlab("Original consensus weights") +
       ylab("Normalized consensus weights") +
       theme_bw(base_size = 14)
-    ggsave(paste0(title,"plotCompareCW.pdf"),width=8,height=6)
+    ggsave(paste0(title,"plotCompareCW.",plot),width=8,height=6)
   }
   else{
     ggplot(data=pdata,aes(x=cw,y=ncw,color=Clustering,size=Duplicates)) +
