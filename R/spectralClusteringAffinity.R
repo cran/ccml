@@ -10,6 +10,6 @@ spectralClusteringAffinity<-function(affi_matrix,k,type = 3){
   # Use the algorithm form the SNFtool package.
 
   requireNamespace("SNFtool")
-  res <- SNFtool::spectralClustering(as.matrix(affi_matrix),k)
+  res <- SNFtool::spectralClustering(as.matrix(1-affi_matrix),k)
   return(res)
 }

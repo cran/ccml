@@ -1,4 +1,4 @@
-callNCW <- function(title,label,nperm = 10, ncore=1,seedn=100,stability=TRUE,plot=NULL) {
+callNCW <- function(title="",label,nperm = 10, ncore=1,seedn=100,stability=TRUE,plot=NULL) {
   #' Calculate normalized consensus weight(NCW) matrix based on permutation.
   #'
   #' @param title A character value for output directory. Directory is created only if not existed. This title can be an abosulte or relative path.
@@ -43,6 +43,12 @@ callNCW <- function(title,label,nperm = 10, ncore=1,seedn=100,stability=TRUE,plo
 
 
   # require(diceR); require(parallel); require(tidyr);require(ggplot2)
+  if(is.null(plot)==FALSE){
+    if(title==""){
+      stop("A 'title' of a character value for output directory must be provided when plot not NULL")
+    }
+
+  }
   if(missing(title)){
     stop("A 'title' of a character value for output directory must be provided") }
   if(!is.character(title)){
@@ -223,7 +229,7 @@ callNCW <- function(title,label,nperm = 10, ncore=1,seedn=100,stability=TRUE,plo
         theme(axis.text.y.left = element_text(color = "blue"),plot.title = element_text(hjust = 0.5)))
 
     }else{
-      ggplot() +
+      p1<-ggplot() +
         geom_boxplot(pdata, mapping=aes(x=reps, y=diff2*sf,group=reps)) +
         geom_line(data=pdata2,aes(x=reps, y=y,group=1),color="blue") +
         geom_point(data=pdata2,aes(x=reps, y=y,group=1),size=3,shape=23,fill = "blue") +

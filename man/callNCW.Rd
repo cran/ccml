@@ -5,7 +5,7 @@
 \title{Calculate normalized consensus weight(NCW) matrix based on permutation.}
 \usage{
 callNCW(
-  title,
+  title = "",
   label,
   nperm = 10,
   ncore = 1,

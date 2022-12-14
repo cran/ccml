@@ -85,7 +85,7 @@ ccml<-function(title, label ,output="rdata",nperm = 10, ncore = 1, seedn = 100, 
 
   # calculate normalized consensus weight matrix
   message("Main Step 1 - Calculating normalized consensus weight matrix")
-  ncw <- callNCW(title, label, nperm = nperm, ncore = ncore, seedn = seedn, stability = TRUE ,plot=plot)
+  ncw <- callNCW(title, label, nperm = nperm, ncore = ncore, seedn = seedn, stability = stability ,plot=plot)
   # plot of comparison of original and normalized consensus weights
   message("Main Step 2 - Comparison between original and normalized consensus weights")
   plotCompareCW(title, label, ncw ,plot)
@@ -93,7 +93,7 @@ ccml<-function(title, label ,output="rdata",nperm = 10, ncore = 1, seedn = 100, 
   # The second step consensus clustering
 
   message("Main Step 3 - The 2nd step of consensus clustering based on normalized consensus weights")
-  fcluster = ConsensusClusterPlus::ConsensusClusterPlus(as.dist(ncw), maxK=maxK, reps=reps, pItem=pItem, title=title, plot=plot, clusterAlg=clusterAlg, seed=seedn,innerLinkage=innerLinkage,...)
+  fcluster = ConsensusClusterPlus::ConsensusClusterPlus(as.dist(1-ncw), maxK=maxK, reps=reps, pItem=pItem, title=title, plot=plot, clusterAlg=clusterAlg, seed=seedn,innerLinkage=innerLinkage,...)
   # network as an affinity matrix can be used only because the "spectalClustering" algorithm use affinity matrices; keep in mind that classic algorithms use distance matrices
   icl = ConsensusClusterPlus::calcICL(fcluster, title=title, plot=plot)
   res <- list(ncw=ncw,fcluster=fcluster,icl=icl)

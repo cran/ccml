@@ -71,7 +71,7 @@ plotCompareCW<- function(title,label,ncw,plot=NULL){
 
   if(is.null(plot)==FALSE)
   {
-    ggplot(data=pdata,aes(x=cw,y=ncw,color=Clustering,size=Duplicates)) +
+    p1<-ggplot(data=pdata,aes(x=cw,y=ncw,color=Clustering,size=Duplicates)) +
       geom_point() +
       scale_colour_brewer(palette="Spectral",name="Clustering") +
       xlab("Original consensus weights") +
@@ -80,12 +80,12 @@ plotCompareCW<- function(title,label,ncw,plot=NULL){
     ggsave(paste0(title,"plotCompareCW.",plot),width=8,height=6)
   }
   else{
-    ggplot(data=pdata,aes(x=cw,y=ncw,color=Clustering,size=Duplicates)) +
+    print(ggplot(data=pdata,aes(x=cw,y=ncw,color=Clustering,size=Duplicates)) +
       geom_point() +
       scale_colour_brewer(palette="Spectral",name="Clustering") +
       xlab("Original consensus weights") +
       ylab("Normalized consensus weights") +
-      theme_bw(base_size = 14)
+      theme_bw(base_size = 14))
   }
 
 }

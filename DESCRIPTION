@@ -1,7 +1,7 @@
 Package: ccml
 Type: Package
 Title: Consensus Clustering for Different Sample Coverage Data
-Version: 1.1.0
+Version: 1.2.0
 Authors@R: c(
     person(given = "Chuanxing", family = "Li", email = "chuan-xing.li@ki.se", role = c("aut", "cre")),
   person(given = "Meng", family = "Zhou", email="zhoumeng@wmu.edu.cn", role="aut"))
@@ -22,9 +22,9 @@ Suggests: spelling, testthat (>= 3.0.0)
 Language: en-US
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2022-08-29 07:45:13 UTC; Lenovo
+Packaged: 2022-12-14 03:13:45 UTC; Lenovo
 Author: Chuanxing Li [aut, cre],
   Meng Zhou [aut]
 Maintainer: Chuanxing Li <chuan-xing.li@ki.se>
 Repository: CRAN
-Date/Publication: 2022-08-29 08:30:02 UTC
+Date/Publication: 2022-12-14 07:30:02 UTC
