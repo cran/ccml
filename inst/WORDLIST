@@ -7,7 +7,6 @@ abosulte
 asssignments
 callNCW
 clusterConsensus
-cml
 consensusClass
 consensusMatrix
 consensusTree
@@ -24,10 +23,8 @@ inputing
 itemConsensus
 kmdist
 maxK
-md
 ncore
 ncw
-newsmd
 nperm
 nrow
 pam

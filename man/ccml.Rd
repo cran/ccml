@@ -9,7 +9,6 @@ ccml(
   label,
   output = "rdata",
   nperm = 10,
-  ncore = 1,
   seedn = 100,
   stability = TRUE,
   maxK = 15,
@@ -29,8 +28,6 @@ ccml(
 \item{output}{A character value for output format, or "rdata"(default) as save to .rdata when both output and plot are not NULL, others will return to workspace.}
 
 \item{nperm}{A integer value of the permutation numbers, or nperm=10(default), which means \code{nperm}*1000 times of permutation. Input for \code{callNCW}}
-
-\item{ncore}{A integer value of cores to use, or ncore=1 (default). It's the input core numbers for the parallel computation in this package \code{parallel}. Input for \code{callNCW}}
 
 \item{seedn}{A numerical value to set the start random seed for reproducible results, or seedn=100 (default). For every 1000 iteration, the seed will +1 to get repeat results. Input for \code{callNCW, ConsensusClusterPlus::ConsensusClusterPlus}}
 
@@ -73,14 +70,14 @@ title="result_output"
 
 \donttest{
 # not estimate stability of permutation numbers.
-res_1=ccml(title=title,label=label,nperm = 3,ncore=1,stability=FALSE,maxK=5,pItem=0.8)
+res_1=ccml(title=title,label=label,nperm = 3,stability=FALSE,maxK=5,pItem=0.8)
 
 # other methods for clustering of distance matrix
-res_2<-ccml(title=title,label=label,nperm = 10,ncore=1,stability=TRUE,maxK=3,
+res_2<-ccml(title=title,label=label,nperm = 10,stability=TRUE,maxK=3,
             pItem=0.9,clusterAlg = "hc")
 
 # set the start random seed
-res_3<-ccml(title=title,label=label,output=FALSE,nperm = 5,ncore=1,seedn=150,stability=TRUE,maxK=3,
+res_3<-ccml(title=title,label=label,output=FALSE,nperm = 5,seedn=150,stability=TRUE,maxK=3,
            pItem=0.9)
 }
 
