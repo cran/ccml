@@ -1,3 +1,12 @@
+## version 1.4.0
+
+---
+
+
+### Added parallel computing functionality
+
+
+
 ## version 1.3.0
 
 ---

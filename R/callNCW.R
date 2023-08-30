@@ -1,14 +1,15 @@
-callNCW <- function(title="",label,nperm = 10, seedn=100,stability=TRUE,plot=NULL) {
+callNCW <- function(title="",label,nperm = 10, ncore=1,seedn=100,stability=TRUE,plot=NULL) {
   #' Calculate normalized consensus weight(NCW) matrix based on permutation.
   #'
   #' @param title A character value for output directory. Directory is created only if not existed. This title can be an abosulte or relative path.
   #' @param label A matrix or data frame of input labels, columns=different clustering results and rows are samples.
   #' @param nperm A integer value of the permutation numbers, or nperm=10(default), which means \code{nperm}*1000 times of permutation.
+  #' @param ncore A integer value of cores to use, or ncore=1 (default). It's the input core numbers for the parallel computation in this package \code{parallel}.
   #' @param seedn A numerical value to set the start random seed for reproducible results, or seedn=100 (default). For every 1000 iteration, the seed will +1 to get repeat results.
   #' @param stability A logical value. Should estimate the stability of normalized consensus weight based on permutation numbers (default stability=TRUE), or not?
   #' @param plot character value. NULL(default) - print to screen, 'pdf', 'png', 'pngBMP' for bitmap png, helpful for large datasets, or 'pdf'. Input for \code{randConsensusMatrix}.
   #' @export
-  #' @import diceR tidyr ggplot2
+  #' @import diceR parallel tidyr ggplot2
   #' @return A matrix of normalized consensus weights.
   #' @examples
   #'
@@ -21,7 +22,7 @@ callNCW <- function(title="",label,nperm = 10, seedn=100,stability=TRUE,plot=NUL
   #'
   #' \donttest{
   #' # run ncw
-  #' ncw<-callNCW(title=title,label=label,stability=TRUE,nperm=4)
+  #' ncw<-callNCW(title=title,label=label,stability=TRUE,nperm=4,ncore=1)
   #' }
   #'
 
@@ -35,7 +36,7 @@ callNCW <- function(title="",label,nperm = 10, seedn=100,stability=TRUE,plot=NUL
 
 
   requireNamespace("diceR")
-  #requireNamespace("parallel")
+  requireNamespace("parallel")
   requireNamespace("tidyr")
   requireNamespace("ggplot2")
   # requireNamespace("ConsensusClusterPlus")
@@ -106,7 +107,7 @@ callNCW <- function(title="",label,nperm = 10, seedn=100,stability=TRUE,plot=NUL
   step = 1000 # number of random consensus weight matrix in each seed
 
   ## mc.cores, number of cores will be used
-  ##ncore = min(parallel::detectCores(),ncore)
+  ncore = min(parallel::detectCores(),ncore)
 
 
   ### number of non missing values for each column
@@ -148,8 +149,8 @@ callNCW <- function(title="",label,nperm = 10, seedn=100,stability=TRUE,plot=NUL
   ppath = paste0(title,"permutation/")
 
 
-  #randL <- parallel::mclapply(seedL,function(x){randConsensusMatrix(l.seed=x,l.label=label,l.ns=ns,l.nc=nc,l.nv=nv,l.index=index,l.pair.ind=pair.ind,l.ppath=ppath,l.plot=plot)},mc.cores=ncore)
-  randL<- lapply(seedL,function(x){randConsensusMatrix(l.seed=x,l.label=label,l.ns=ns,l.nc=nc,l.nv=nv,l.index=index,l.pair.ind=pair.ind,l.ppath=ppath,l.plot=plot)})
+  randL <- parallel::mclapply(seedL,function(x){randConsensusMatrix(l.seed=x,l.label=label,l.ns=ns,l.nc=nc,l.nv=nv,l.index=index,l.pair.ind=pair.ind,l.ppath=ppath,l.plot=plot)},mc.cores=ncore)
+
   ## calculate NCW----
   ### import all random consensus matrixes to randCM
 

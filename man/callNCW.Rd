@@ -8,6 +8,7 @@ callNCW(
   title = "",
   label,
   nperm = 10,
+  ncore = 1,
   seedn = 100,
   stability = TRUE,
   plot = NULL
@@ -19,6 +20,8 @@ callNCW(
 \item{label}{A matrix or data frame of input labels, columns=different clustering results and rows are samples.}
 
 \item{nperm}{A integer value of the permutation numbers, or nperm=10(default), which means \code{nperm}*1000 times of permutation.}
+
+\item{ncore}{A integer value of cores to use, or ncore=1 (default). It's the input core numbers for the parallel computation in this package \code{parallel}.}
 
 \item{seedn}{A numerical value to set the start random seed for reproducible results, or seedn=100 (default). For every 1000 iteration, the seed will +1 to get repeat results.}
 
@@ -43,7 +46,7 @@ title="result_output"
 
 \donttest{
 # run ncw
-ncw<-callNCW(title=title,label=label,stability=TRUE,nperm=4)
+ncw<-callNCW(title=title,label=label,stability=TRUE,nperm=4,ncore=1)
 }
 
 }
